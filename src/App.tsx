@@ -1,9 +1,13 @@
-import React from 'react'
+// App.tsx
+import React from 'react';
+import Header from './assets/Header/Header';
 
 const App = () => {
   return (
-    <div></div>
-  )
-}
+    <>
+      <Header />
+    </>
+  );
+};
 
-export default App
+export default App;
