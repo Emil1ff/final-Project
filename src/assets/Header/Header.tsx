@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchMenuData } from '../companents/actions/actions';
 import { MdKeyboardArrowLeft } from 'react-icons/md';
@@ -9,13 +9,25 @@ const Header = () => {
   const dispatch = useDispatch();
   const menuData = useSelector((state: any) => state.menuData);
   const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  let timeoutId: NodeJS.Timeout | null = null;
 
   useEffect(() => {
     dispatch(fetchMenuData());
   }, [dispatch]);
 
-  const handleMouseEnter = () => setIsDropdownVisible(true);
-  const handleMouseLeave = () => setIsDropdownVisible(false);
+  const handleMouseEnter = () => {
+    if (timeoutId) {
+      clearTimeout(timeoutId); 
+      timeoutId = null;
+    }
+    setIsDropdownVisible(true);
+  };
+
+  const handleMouseLeave = () => {
+    timeoutId = setTimeout(() => {
+      setIsDropdownVisible(false);
+    }, 1000);
+  };
 
   return (
     <header>
