@@ -1,8 +1,8 @@
-import { FETCH_SLIDER_DATA, SliderData, FetchSliderDataAction } from '../../features/actions/sliderAction';
+import { FETCH_SLIDER_DATA, FetchSliderDataAction, SliderData } from '../../features/actions/sliderAction';
 
-export interface SliderState {
-  sliderData: SliderData | null;
-}
+interface SliderState {
+    sliderData: SliderData | null;
+  }
 
 const initialState: SliderState = {
   sliderData: null,
@@ -11,11 +11,10 @@ const initialState: SliderState = {
 export const sliderReducer = (state = initialState, action: FetchSliderDataAction): SliderState => {
   switch (action.type) {
     case FETCH_SLIDER_DATA:
-      return {
-        ...state,
-        sliderData: action.payload,
-      };
+      return { ...state, sliderData: action.payload };
     default:
       return state;
   }
 };
+
+export default sliderReducer;

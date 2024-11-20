@@ -1,12 +1,35 @@
 
 
 footer {
+    position: relative; 
     background-color: #1c1c1c;
     color: #b3b3b3;
     padding: 20px 40px;
     font-family: Arial, sans-serif;
     height: auto;
 }
+
+footer::before {
+    content: "";
+    position: absolute;
+    top: 0; 
+    left: 0;
+    width: 100%;
+    height: 3px; 
+    background: linear-gradient(90deg, red, orange, yellow, green, blue, indigo, violet, red); /* RGB rənglər */
+    background-size: 200%;
+    animation: rgb-line 5s linear infinite; 
+}
+
+@keyframes rgb-line {
+    0% {
+        background-position: 0%;
+    }
+    100% {
+        background-position: 200%;
+    }
+}
+
 
 .secial-icons {
     margin: 20px 0px;

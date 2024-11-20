@@ -4,11 +4,9 @@ import Footer from '../../companents/Footer/Footer'
 
 const Home = () => {
   return (
-    <main>
-        <Header />
+    <>
         <Slider />
-        <Footer />
-    </main>
+    </>
   )
 }
 

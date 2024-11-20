@@ -1,4 +1,4 @@
-export const SET_MENU_DATA = 'SET_MENU_DATA';
+export const FETCH_MENU_DATA = 'SET_MENU_DATA';
 
 export interface MenuItem {
   name: string;
@@ -12,17 +12,17 @@ export interface MenuData {
   distribute: MenuItem[];
 }
 
-export interface SetMenuDataAction {
-  type: typeof SET_MENU_DATA;
+export interface FetchMenuDataAction {
+  type: typeof FETCH_MENU_DATA;
   payload: MenuData;
 }
 
-export const setMenuData = (data: MenuData): SetMenuDataAction => ({
-  type: SET_MENU_DATA,
-  payload: data,
-});
+// export const setMenuData = (data: MenuData): SetMenuDataAction => ({
+//   type: FETCH_MENU_DATA,
+//   payload: data,
+// });
 
-export const fetchMenuData = () => (dispatch: (action: SetMenuDataAction) => void) => {
+export const fetchMenuData = () => (dispatch: (action: FetchMenuDataAction) => void) => {
   const data: MenuData = {
     play: [
       { name: 'Fortnite', image: 'https://cms-assets.unrealengine.com/gdXF6wXaRzq7FLerxFmv' },
@@ -55,5 +55,8 @@ export const fetchMenuData = () => (dispatch: (action: SetMenuDataAction) => voi
     ],
   };
 
-  dispatch(setMenuData(data));
+  dispatch({
+    type: FETCH_MENU_DATA,
+    payload: data,
+  });
 };

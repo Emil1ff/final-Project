@@ -1,30 +1,19 @@
-import React, { useEffect, useState, useRef } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchMenuData } from '../../features/actions/menuAction';
-import { MdKeyboardArrowLeft } from 'react-icons/md';
-import epicLogo from '../../img/logo/epic.png';
-import './head.css';
-import { FaSearch } from 'react-icons/fa';
-import { RootState } from '../../functions/store/store';
-
-interface MenuItem {
-  name: string;
-  image?: string;
-}
-
-interface MenuData {
-  play: MenuItem[];
-  discover: MenuItem[];
-  create: MenuItem[];
-  distribute: MenuItem[];
-}
+import React, { useEffect, useState, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch, RootState } from "../../functions/store/store";
+import { MdKeyboardArrowLeft } from "react-icons/md";
+import { FaSearch } from "react-icons/fa";
+import epicLogo from "../../img/logo/epic.png";
+import "./head.css";
+import { fetchMenuData } from "../../features/actions/menuAction";
 
 const Header: React.FC = () => {
-  const dispatch = useDispatch();
-  const menuData = useSelector((state: RootState) => state.menu.menuData as MenuData | null);
+  const dispatch = useDispatch<AppDispatch>();
+  const menuData = useSelector((state: RootState) => state.menu.menuData);
 
-  const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
-  const [isDistributeDropdownVisible, setIsDistributeDropdownVisible] = useState<boolean>(false);
+  const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+  const [isDistributeDropdownVisible, setIsDistributeDropdownVisible] =
+    useState(false);
 
   const dropdownRef = useRef<HTMLDivElement>(null);
   const distributeDropdownRef = useRef<HTMLDivElement>(null);
@@ -37,19 +26,12 @@ const Header: React.FC = () => {
     const handleScroll = () => {
       const header = document.getElementById("scrol");
       if (header) {
-        if (window.scrollY > 100) {
-          header.classList.add("headerAnime");
-        } else {
-          header.classList.remove("headerAnime");
-        }
+        header.classList.toggle("headerAnime", window.scrollY > 100);
       }
     };
 
     window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
@@ -69,54 +51,65 @@ const Header: React.FC = () => {
     };
 
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const handleDropdownToggle = () => {
-    setIsDropdownVisible((prev) => !prev);
-  };
-
-  const handleDistributeDropdownToggle = () => {
-    setIsDistributeDropdownVisible((prev) => !prev);
-  };
+  const toggleDropdown = () => setIsDropdownVisible(!isDropdownVisible);
+  const toggleDistributeDropdown = () =>
+    setIsDistributeDropdownVisible(!isDistributeDropdownVisible);
 
   return (
     <header>
       <div className="top">
-        <div className="logo" onClick={handleDropdownToggle} ref={dropdownRef}>
+        <div
+          className="logo"
+          onClick={toggleDropdown}
+          ref={dropdownRef}
+        >
           <img src={epicLogo} alt="epic-games-logo" />
-          <MdKeyboardArrowLeft className={`arrow ${isDropdownVisible ? 'arrow-open' : 'arrow-close'}`} />
-          <div
-            className={`dropdown-menu ${isDropdownVisible ? 'dropdown-open' : 'dropdown-close'}`}
-          >
-            {menuData &&
-              ['play', 'discover', 'create'].map((section) => (
+          <MdKeyboardArrowLeft
+            className={`arrow ${
+              isDropdownVisible ? "arrow-open" : "arrow-close"
+            }`}
+          />
+          {menuData && (
+            <div
+              className={`dropdown-menu ${
+                isDropdownVisible ? "dropdown-open" : "dropdown-close"
+              }`}
+            >
+              {["play", "discover", "create"].map((section) => (
                 <div className="dropdown-section" key={section}>
                   <h4>{section.charAt(0).toUpperCase() + section.slice(1)}</h4>
                   <ul>
-                    {menuData[section as keyof MenuData]?.map((item, index) => (
-                      <li key={index}>
-                        {item.image && (
-                          <img src={item.image} alt={item.name} className="menu-item-image" />
-                        )}
-                        <span>
-                          <a href="#">{item.name}</a>
-                        </span>
-                      </li>
-                    ))}
+                    {menuData[section as keyof typeof menuData]?.map(
+                      (item, index) => (
+                        <li key={index}>
+                          {item.image && (
+                            <img
+                              src={item.image}
+                              alt={item.name}
+                              className="menu-item-image"
+                            />
+                          )}
+                          <span>
+                            <a href="#">{item.name}</a>
+                          </span>
+                        </li>
+                      )
+                    )}
                   </ul>
                 </div>
               ))}
-          </div>
+            </div>
+          )}
         </div>
 
         <div className="menu">
           <a href="#" className="menu-item">
             <img
               src="https://cms-assets.unrealengine.com/qAiDvosPSFGqJxTVuY7h"
-              alt=""
+              alt="Support"
             />
           </a>
           <a href="#" className="menu-item">
@@ -124,31 +117,41 @@ const Header: React.FC = () => {
           </a>
           <div
             className="menu-item distribute"
-            onClick={handleDistributeDropdownToggle}
+            onClick={toggleDistributeDropdown}
             ref={distributeDropdownRef}
           >
             Distribute
-            <MdKeyboardArrowLeft className={`arrow ${isDistributeDropdownVisible ? 'arrow-open' : 'arrow-close'}`} />
-            <div
-              className={`dropdown-menu-distribute ${
-                isDistributeDropdownVisible ? 'dropdown-open' : 'dropdown-close'
+            <MdKeyboardArrowLeft
+              className={`arrow ${
+                isDistributeDropdownVisible ? "arrow-open" : "arrow-close"
               }`}
-            >
-              {menuData?.distribute?.map((item, index) => (
-                <div className="dropdown-item" key={index}>
-                  <span>{item.name}</span>
-                </div>
-              ))}
-            </div>
+            />
+            {menuData?.distribute && (
+              <div
+                className={`dropdown-menu-distribute ${
+                  isDistributeDropdownVisible
+                    ? "dropdown-open"
+                    : "dropdown-close"
+                }`}
+              >
+                {menuData.distribute.map((item, index) => (
+                  <div className="dropdown-item" key={index}>
+                    <span>{item.name}</span>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 
         <div className="buttons">
           <button className="sign-in">
-            <span> Sign in </span>
+            <span>Sign in</span>
           </button>
           <button className="download">
-            <a href='https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi?trackingId=47ee9210e8e543338065b1c156099a16'> Download </a>
+            <a href="https://launcher-public-service-prod06.ol.epicgames.com/launcher/api/installer/download/EpicGamesLauncherInstaller.msi?trackingId=47ee9210e8e543338065b1c156099a16">
+              Download
+            </a>
           </button>
         </div>
       </div>
