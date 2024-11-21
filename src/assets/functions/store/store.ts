@@ -1,3 +1,4 @@
+//store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import { sliderReducer } from '../reducer/sliderReducer';
 import { menuReducer } from '../reducer/menuReducer';

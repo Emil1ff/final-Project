@@ -1,3 +1,4 @@
+//sliderAction.ts
 export const FETCH_SLIDER_DATA = 'FETCH_SLIDER_DATA';
 
 export interface SliderItem {

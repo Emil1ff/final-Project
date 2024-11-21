@@ -1,25 +1,15 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSliderData } from '../../features/actions/sliderAction';
 import { RootState } from '../../functions/store/store';
 import './slider.css';
 
-interface SliderItem {
-  name: string;
-  image?: string;
-}
+interface SliderProps {}
 
-interface SliderData {
-  play: SliderItem[];
-  discover: SliderItem[];
-  create: SliderItem[];
-  distribute: SliderItem[];
-}
-
-const Slider: React.FC = () => {
-  const [currentSlide, setCurrentSlide] = useState(0);
+const Slider: React.FC<SliderProps> = () => {
+  const [currentSlide, setCurrentSlide] = useState<number>(0);
   const dispatch = useDispatch();
-  const menuData = useSelector((state: RootState) => state.slider.sliderData as SliderData | null);
+  const sliderData = useSelector((state: RootState) => state.slider.sliderData);
 
   useEffect(() => {
     dispatch(fetchSliderData());
@@ -27,25 +17,25 @@ const Slider: React.FC = () => {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      if (menuData?.items) {
-        setCurrentSlide((prev) => (prev + 1) % menuData.items.length);
+      if (sliderData?.items?.length) {
+        setCurrentSlide((prev) => (prev + 1) % sliderData.items.length);
       }
     }, 10000);
 
     return () => clearInterval(interval);
-  }, [menuData]);
+  }, [sliderData]);
 
-  const handleThumbnailClick = (index: number) => {
+  const handleThumbnailClick = useCallback((index: number) => {
     setCurrentSlide(index);
-  };
+  }, []);
 
   return (
     <section className="slider">
       <div className="container">
-        {menuData?.items &&
-          menuData.items.map((item, index) => (
+        {sliderData?.items &&
+          sliderData.items.map((item, index) => (
             <div
-              key={index}
+              key={`slide-${index}`}
               className={`slide ${currentSlide === index ? 'active' : ''}`}
               style={{
                 transform: `translateX(${-currentSlide * 100}%)`,
@@ -85,10 +75,10 @@ const Slider: React.FC = () => {
           ))}
       </div>
       <div className="thumbnails">
-        {menuData?.items &&
-          menuData.items.map((item, index) => (
+        {sliderData?.items &&
+          sliderData.items.map((item, index) => (
             <div
-              key={`${index}-${currentSlide}`}
+              key={`thumbnail-${index}`}
               className={`thumbnail ${index === currentSlide ? 'active' : ''}`}
               onClick={() => handleThumbnailClick(index)}
             >
