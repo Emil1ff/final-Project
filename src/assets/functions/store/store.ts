@@ -1,12 +1,13 @@
-//store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import { sliderReducer } from '../reducer/sliderReducer';
 import { menuReducer } from '../reducer/menuReducer';
+import carouselReducer from '../reducer/carouselReducer';
 
 export const store = configureStore({
   reducer: {
     menu: menuReducer,
     slider: sliderReducer,
+    carousel: carouselReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

@@ -17,11 +17,6 @@ export interface FetchMenuDataAction {
   payload: MenuData;
 }
 
-// export const setMenuData = (data: MenuData): SetMenuDataAction => ({
-//   type: FETCH_MENU_DATA,
-//   payload: data,
-// });
-
 export const fetchMenuData = () => (dispatch: (action: FetchMenuDataAction) => void) => {
   const data: MenuData = {
     play: [

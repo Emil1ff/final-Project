@@ -1,14 +1,13 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { fetchSliderData } from '../../features/actions/sliderAction';
-import { RootState } from '../../functions/store/store';
+import { AppDispatch, RootState } from '../../functions/store/store';
 import './slider.css';
 
-interface SliderProps {}
 
-const Slider: React.FC<SliderProps> = () => {
+const Slider: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState<number>(0);
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const sliderData = useSelector((state: RootState) => state.slider.sliderData);
 
   useEffect(() => {
