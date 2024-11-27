@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { sliderReducer } from '../reducer/sliderReducer';
-import { menuReducer } from '../reducer/menuReducer';
-import carouselReducer from '../reducer/carouselReducer';
+import { menuReducer } from '../features/reducer/menuReducer';
+import sliderReducer from '../features/reducer/sliderReducer';
+import { carouselReducer } from '../features/reducer/carouselReducer';
 
 export const store = configureStore({
   reducer: {

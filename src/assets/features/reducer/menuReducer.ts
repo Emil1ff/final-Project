@@ -1,4 +1,4 @@
-import { FETCH_MENU_DATA, MenuData, FetchMenuDataAction } from '../../features/actions/menuAction';
+import { FETCH_MENU_DATA, MenuData, FetchMenuDataAction } from '../actions/menuAction';
 
 export interface MenuState {
   menuData: MenuData | null;

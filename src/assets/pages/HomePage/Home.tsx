@@ -1,18 +1,29 @@
-import Header from '../../companents/Header/Header'
-import Slider from '../../companents/Slider/Slider'
-import Footer from '../../companents/Footer/Footer'
-import Carousel from '../../companents/Crousel/Carousel'
+import Slider from '../../companents/Slider/Slider';
+import Carousel from '../../companents/Crousel/Carousel';
+import "./home.css"
 
 const Home = () => {
   return (
     <>
+      <section className='game-present'>
         <Slider />
-        <Carousel />
-        <Carousel />
-        <Carousel />
+      </section>
+      <section className='popular-games'>
+        <Carousel
+          key="new-games"
+          apiUrl="https://673a25baa3a36b5a62f0de6a.mockapi.io/New-Games"
+        />
+      </section>
+
+      <section>
+        <Carousel 
+        key="popular-games"
+        apiUrl='https://673a25baa3a36b5a62f0de6a.mockapi.io/Popular-Games'
+        />
+      </section>
 
     </>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

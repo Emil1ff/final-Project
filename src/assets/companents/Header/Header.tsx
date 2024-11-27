@@ -1,13 +1,21 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch, RootState } from "../../functions/store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import { MdKeyboardArrowLeft } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import epicLogo from "../../img/logo/epic.png";
 import "./head.css";
 import { fetchMenuData } from "../../features/actions/menuAction";
+import { useNavigate } from "react-router-dom";
 
 const Header: React.FC = () => {
+
+  const navigate = useNavigate();
+
+  const handleLogin = () => {
+    navigate("/login");
+  };
+
   const dispatch = useDispatch<AppDispatch>();
   const menuData = useSelector((state: RootState) => state.menu.menuData);
 
@@ -145,7 +153,7 @@ const Header: React.FC = () => {
         </div>
 
         <div className="buttons">
-          <button className="sign-in">
+          <button className="sign-in" onClick={handleLogin}>
             <span>Sign in</span>
           </button>
           <button className="download">

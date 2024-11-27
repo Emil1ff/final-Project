@@ -1,4 +1,4 @@
-import { FETCH_SLIDER_DATA, FetchSliderDataAction, SliderData } from '../../features/actions/sliderAction';
+import { FETCH_SLIDER_DATA, FetchSliderDataAction, SliderData } from '../actions/sliderAction';
 
 interface SliderState {
   sliderData: SliderData | null;
